@@ -1,0 +1,363 @@
+<html>
+<head>
+<style type="text/css">
+    @font-face {
+    font-family: 'Creditverse'; /*a name to be used later*/
+    src: url('fonts/creditverse_font.ttf'); /*URL to font*/}
+    #qclick option{height: 43px;}
+    #mainss,#showdata,#sresult{background:url("css/grungy_background-t2.jpg")}
+   #showdata p{color:white; font-family: 'Creditverse';}   
+    #qclick,#q{background: #02296C}
+    #qclick{color: white;font-weight: bold;background:#1A62B4}
+</style>    
+<link href="css/bootstrap.min.css" rel="stylesheet"/>    
+<script type="application/javascript"  src="js/data.js"></script>   
+<script type="application/javascript" src="js/jquery-1.11.3.min.js"></script>    
+</head>
+<body style="background-color:rgb(108, 5, 50);">
+<!--UI for searching-->
+    
+    <div class="container">
+             
+        <div class="col-md-4"></div>
+       
+            <div  class="col-md-4">
+            <div id='mainss' class="panel panel-primary">
+            <div class="panel-heading">
+            <center>
+                <h1> KYS </h1>
+                <sub>Know Your Students [ Select and Search!! ]</sub> 
+            </center> </div>       
+    
+    <select name="what" id="qclick" class="form-control" style="margin-top:3px;height: 43px;" onchange="document.getElementById('q').focus();">
+    <option disabled selected>What are you looking for?</option>
+    <option>ClassRollNumber</option>    
+    <option>RegistrationNumber</option>    
+    <option>Name</option>        
+    <option>PhoneNumber</option>    
+    </select>   
+    <input id="q" type="text" class="form-control"   style="margin-top:3px;color:white;height: 43px;" placeholder="KYS"/>
+    <div id="wlcm"> 
+    <div id="welcmsg" class="row">
+      <div class="col-md-12">
+      <a href="#" class="thumbnail">
+      <img src="css/assets/welcome.jpg" alt="...">
+      <img src="css/assets/PGC-logo.png" alt="...">
+            
+      </a>
+            
+      <p style="text-align:center;color:black;background-color:white"><a style="color:black;font-weight:bold" href="javascript:window.onbeforeunload=false;window.location.href='about.html'" >Contact Us</a></p>
+      <p style="color:white;text-align:center">Copyright@StudyTerminal.in  </p>      
+          
+      </div>
+        
+    </div>
+    </div>    
+                  
+  <div id="sresult" class="panel panel-default" style="margin-top:3px;">
+       
+  <!-- Default panel contents -->
+  <div class="panel-heading">SearchResult</div>
+     <div class="panel-body">
+     <p id="showdata" style="font-size: 19px;">
+         
+    </p>
+     </div>
+     <div class="panel-footer"><center>
+     Copyright@StudyTerminal.in<br>
+     <img class="img-rounded" src="css/assets/PGC-logo.png" alt="PGC"/>
+     <p><a href="javascript:window.onbeforeunload=false;window.location.href='about.html'" style="font-weight:bold;background-color:white">Contact Us</a></p>     
+    </center>  
+     </div>
+    </div>
+    
+    </div>
+        </div>        
+    </div>
+<!-- end of UI -->    
+<script type="application/javascript">
+     window.onbeforeunload = checkifclose;
+    function checkifclose(){
+     var check = alert("Are you sure you wanna close? ");
+         if(check)
+            window.close();
+         else
+            return false;  
+    } 
+    document.getElementById("sresult").style.opacity=0;
+    q.addEventListener("keyup",searchplease);
+function searchplease()
+{
+  try{
+   document.getElementById("wlcm").removeChild(document.getElementById("welcmsg"));  
+   }catch(e){
+    console.log("h$");
+   }  
+    
+  document.getElementById("sresult").style.opacity=1;    
+  var q = document.getElementById("q");    
+  var qclick = document.getElementById("qclick");
+  var ps = document.getElementById("showdata");
+      ps.innerHTML="";
+  var element,storedata;    
+  var ind,regex,regno;      
+    if(qclick.value=='What are you looking for?')
+          alert("select the criteria by which you wanna search!!");
+      else if(q.value!='')
+         {
+           if(qclick.value=="ClassRollNumber")
+           {
+               ind=0;
+               for(var i =0; i<data.length; i++)
+               {
+                   
+                  regno = q.value;
+                  regex = new RegExp(regno,"i"); 
+                    
+                  if(regex.exec(data[i].SerialNo))
+                  {  
+                    storedata=data[i].SerialNo+";"+data[i].Name+";"+data[i].Fname+";"+data[i].RegNo+";"+data[i].Mobile+";"+data[i].Email+";"+data[i].PermanentAddress+";"+data[i].FatherMobile+";"+data[i].Medium+";"+data[i].CLASS+";"+data[i].TenthPerc+";"+data[i].twelfPerc+";"+data[i].btechAggr+";"+data[i].backs;
+                      addElement(ps,data[i].SerialNo+"( from "+data[i].CLASS+")",storedata);
+                  }
+                   else{
+                   
+                   }
+               }
+               
+           }
+           else if(qclick.value=="RegistrationNumber")
+           { 
+               ind=1;
+              
+               for(var i =0; i<data.length; i++)
+               {
+                   
+                  regno = q.value;
+                  regex = new RegExp(regno,"i"); 
+                    
+                  if(regex.exec(data[i].RegNo))
+                  {  
+storedata=data[i].SerialNo+";"+data[i].Name+";"+data[i].Fname+";"+data[i].RegNo+";"+data[i].Mobile+";"+data[i].Email+";"+data[i].PermanentAddress+";"+data[i].FatherMobile+";"+data[i].Medium+";"+data[i].CLASS+";"+data[i].TenthPerc+";"+data[i].twelfPerc+";"+data[i].btechAggr+";"+data[i].backs;
+                      addElement(ps,data[i].RegNo,storedata);
+                  }
+                   else{
+                   
+                   }
+               }
+           }
+         else if(qclick.value=="Name")
+           {
+               ind=2;
+                for(var i =0; i<data.length; i++)
+               {
+                   
+                  regno = q.value;
+                  regex = new RegExp(regno,"i"); 
+                    
+                  if(regex.exec(data[i].Name))
+                  {  
+ storedata=data[i].SerialNo+";"+data[i].Name+";"+data[i].Fname+";"+data[i].RegNo+";"+data[i].Mobile+";"+data[i].Email+";"+data[i].PermanentAddress+";"+data[i].FatherMobile+";"+data[i].Medium+";"+data[i].CLASS+";"+data[i].TenthPerc+";"+data[i].twelfPerc+";"+data[i].btechAggr+";"+data[i].backs;
+                      addElement(ps,data[i].Name,storedata);
+                  }
+                   else{
+                   
+                   }
+               }
+           }
+          else if(qclick.value=="PhoneNumber")
+           {
+               ind=3;
+                for(var i =0; i<data.length; i++)
+               {
+                   
+                  regno = q.value;
+                  regex = new RegExp(regno,"i"); 
+                    
+                  if(regex.exec(data[i].Mobile))
+                  {  
+storedata=data[i].SerialNo+";"+data[i].Name+";"+data[i].Fname+";"+data[i].RegNo+";"+data[i].Mobile+";"+data[i].Email+";"+data[i].PermanentAddress+";"+data[i].FatherMobile+";"+data[i].Medium+";"+data[i].CLASS+";"+data[i].TenthPerc+";"+data[i].twelfPerc+";"+data[i].btechAggr+";"+data[i].backs;
+                      addElement(ps,data[i].Mobile,storedata);
+                  }
+                   else{
+                   
+                   }
+               }
+           }
+                
+             
+         }
+      
+    
+}
+function addElement(obj,title,data)
+    {
+  var   element = document.createElement("p");      
+  var   oText = document.createTextNode(title);
+        element .appendChild(oText);
+        element.setAttribute("valueof",data);
+        element.setAttribute("data-toggle","modal");
+        element.setAttribute("data-target","#GSCCModal");
+        element.setAttribute("onclick","openpop(this)");
+        obj.appendChild(element);
+        element.innerHTML="<span class='glyphicon glyphicon-send'></span> "+title;
+        element.style.backgroundColor=rgba();
+    }
+function openpop(obj)
+    {
+     var imgvar,link; 
+     document.getElementById("profile_img").src="";
+     document.getElementById("profile_img").alt="";     
+     document.getElementById("myModalLabel").innerHTML= document.getElementById("qclick").value+ " wise Search";
+     document.getElementById("myModalLabel").style.color="white";      
+     var chunk= obj.getAttribute("valueof").split(";");
+         document.getElementById("SerialNo").innerHTML="ClassRollNumber: "+chunk[0];
+         document.getElementById("RegNo").innerHTML="RegistrationNumber: "+chunk[3];
+         document.getElementById("Name").innerHTML="Name: "+chunk[1];
+         if(chunk[4]!='0')
+            document.getElementById("Mobile").innerHTML="MobileNumber: "+chunk[4]+" <button type='button'><a href='tel:"+chunk[4]+"'><span class='glyphicon glyphicon-earphone'></span></a></button>  <button type='button'><a href='sms:"+chunk[4]+"'><span class='glyphicon glyphicon-envelope'></span></a></button>";
+          else
+            document.getElementById("Mobile").innerHTML="MobileNumber: "+chunk[4]; 
+        if(chunk[7]!='0')
+            document.getElementById("FatherMobile").innerHTML="FatherMobileNumber: "+chunk[7]+" <button type='button'><a href='tel:"+chunk[7]+"'><span class='glyphicon glyphicon-earphone'></span></a></button>  <button type='button'><a href='sms:"+chunk[7]+"'><span class='glyphicon glyphicon-envelope'></span></a></button>";
+          else
+            document.getElementById("FatherMobile").innerHTML="MobileNumber: "+chunk[7]; 
+        
+         document.getElementById("Email").innerHTML="Email: <a href='mailto:"+chunk[5]+"'>"+chunk[5]+"</a>";
+         document.getElementById("CLASS").innerHTML="Section: "+chunk[9];
+         imgvar = chunk[3].replace(/[/]/g,'_');
+         link= FileExist("js/2012/"+imgvar+".JPG");   
+         if(link)     
+         document.getElementById("profile_img").src = "js/2012/"+imgvar+".JPG";
+         else
+         document.getElementById("profile_img").alt = "Photo is not available.";              
+         //getting attendance from poornima.org
+         document.getElementById("atten").innerHTML='';
+         document.getElementById("Fname").innerHTML ="Father Name: " + chunk[2];
+        // document.getElementById("Mobile").innerHTML ="Mobile: "+ chunk[4];
+         document.getElementById("PermanentAddress").innerHTML ="<p>Permanent Address:</p>"+ chunk[6];
+         //document.getElementById("FatherMobile").innerHTML ="Father Mobile: "+ chunk[7];
+         document.getElementById("Medium").innerHTML = "Medium  "+ chunk[8];
+         document.getElementById("TenthPerc").innerHTML ="10th Percentage: "+ chunk[10];
+         document.getElementById("twelfPerc").innerHTML ="12th Percentage: "+ chunk[11];
+         document.getElementById("btechAggr").innerHTML = "Btech Aggregate: "+chunk[12];
+         document.getElementById("backs").innerHTML = "NumberOfBack: "+chunk[13];
+        //[3]=RegNo,[9]=CLASS
+         getAttendance(chunk[3],chunk[9]);
+           
+    }
+function rgba()
+     {
+      var r = parseInt(Math.random()*200);
+      var g = parseInt(Math.random()*200);
+      var b = parseInt(Math.random()*200);
+      var a = Math.random()*10; 
+      return ("rgba("+r+","+g+","+b+","+a+")");
+              
+     
+     }   
+function FileExist(url)
+{
+    var http;
+    try{
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;
+    }catch(e){
+        return e;
+             }
+}      
+function getAttendance(reg,year){
+    
+  var http,url;var match; 
+    document.getElementById("atten").innerHTML = "Loading...."; 
+    document.getElementById("atten").style.backgroundColor="white"; 
+    var checkifonline = navigator.onLine;    
+  if(checkifonline)
+  {
+     match= parseInt(/[0-9]|/.exec(year));
+  if(match==3)
+     match="IIYEAR"; 
+  else if(match==5)
+     match="IIIYEAR";
+  else if(match==7)
+     match="IVYEAR";       
+  url="http://studyterminal.in/Rohit/atten.php?reg="+reg+"&year="+match;    
+  if(window.XMLHttpRequest)
+      http = new XMLHttpRequest();
+  else
+      http = new ActiveXObject("Microsoft.XMLHTTP");
+  http.open("GET",url);
+  http.send();
+  http.onreadystatechange = function ()
+                                     {
+                                      if(http.readyState==0||http.readyState==1||http.readyState==2||http.readyState==3&&http.status==200)
+                                        document.getElementById("atten").innerHTML = "Please Wait, Loading....!!";
+                                     else if(http.readyState==3&&http.status==200)
+                                        document.getElementById("atten").innerHTML = "Loading...."; 
+                                      else if(http.readyState==4&&http.status==200)
+                                      {
+                                       var perc =http.responseText.match(/[0-9]+/g);
+                                        perc[1]= parseInt(perc[1]);   
+                                       if(perc[1]<75)
+                                        document.getElementById("atten").style.backgroundColor="rgb(235, 10, 10)";
+                                        else
+                                        document.getElementById("atten").style.backgroundColor="white";        
+                                        document.getElementById("atten").innerHTML = "Current Attendance: "+http.responseText;    
+                                      }
+                                     }  
+  }else{
+         document.getElementById("atten").innerHTML = "You are offline!!";  
+       }
+}    
+</script>
+
+<script type="application/javascript" src="js/bootstrap.min.js"></script>    
+<div id="GSCCModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: rgb(26, 61, 92)">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+           
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-md-12">
+              <a href="#" class="thumbnail">
+                <img id="profile_img" src="" alt="Sprofile">
+              </a>
+            </div>
+  
+         </div>
+         
+    </li> 
+    <li class="list-group-item"><p id="SerialNo"></p></li>         
+    <li class="list-group-item"><p id="Name"></p></li>         
+    <li class="list-group-item"><p id="RegNo"></p></li>        
+    <li class="list-group-item"><p id="Mobile"></p></li>
+    <li class="list-group-item"><p id="Email"></p></li>
+    <li class="list-group-item"><p id="Medium"></p></li>
+    <li class="list-group-item"> <p id="CLASS"></p></li>
+    <li class="list-group-item"><p id="Fname"></p></li>            
+    <li class="list-group-item"><p id="FatherMobile"></p></li>            
+    <li class="list-group-item"><p id="PermanentAddress"></p></li>            
+    <li class="list-group-item" style="background-color:#6C0532;"><h3 style="text-align:center;color:white">Academic Qualifications</h3></li> 
+    <li class="list-group-item"><p id="TenthPerc"></p></li>            
+    <li class="list-group-item"><p id="twelfPerc"></p></li>            
+    <li class="list-group-item"><p id="btechAggr"></p></li>            
+    <li class="list-group-item"><p id="backs"></p></li>            
+    <li class="list-group-item"><button onclick="document.getElementById('atten').style.opacity=1">Show Attendance</button><p id="atten" style="opacity:0">Loading....</p>
+    </li>
+    </ul>  
+      </div>
+      <div class="modal-footer" style="background-color: rgb(26, 61, 92)">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
